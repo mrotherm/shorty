@@ -1,0 +1,14 @@
+﻿@model MvcPlugin.Shorty.Areas.Shorty.Models.Api.ShortLink
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>title</h2>
+<div>Short URL: <a href="@Model.ShortenedUrl">@Model.ShortenedUrl</a></div>
+<div style="font-size: smaller;">Long URL: @Model.OriginalUrl</div>
+<br/>
+<div>Created at: @Model.Created</div>
+<div>Clicked: @Model.Clicks</div>
+<div>Last clicked: @Model.LastClicked</div>
