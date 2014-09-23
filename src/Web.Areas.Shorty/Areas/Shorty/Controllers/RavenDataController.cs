@@ -10,6 +10,8 @@ namespace MvcPlugin.Shorty.Areas.Shorty.Controllers
 
         protected readonly IDocumentStore DocumentStore;
 
+        // Maybe create another base class to hold generic properties like BaseUrl,
+        // but so far this is the only one so we'll ship it here
         protected readonly string BaseUrl = System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
 
         public RavenDataController(IDocumentStore documentStore)

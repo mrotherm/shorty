@@ -3,6 +3,12 @@ using MvcContrib.PortableAreas;
 
 namespace MvcPlugin.Shorty.Areas.Shorty
 {
+    /*
+     *
+     *  SEE http://elegantcode.com/2012/04/06/mvc-portable-areas/ for more information on this
+     * 
+     */
+
     public class ShortyAreaRegistration : PortableAreaRegistration 
     {
         public override string AreaName 
@@ -47,12 +53,12 @@ namespace MvcPlugin.Shorty.Areas.Shorty
 
             #endregion
 
-                       context.MapRoute(
-                          name: AreaName + "_create",
-                          url: base.AreaRoutePrefix + "/create/{*url}",
-                          defaults: new { controller = "Api", action = "Create" },
-                          namespaces: new[] { "MvcPlugin.Shorty.Areas.Shorty.Controllers", "MvcContrib" }
-                       );
+            context.MapRoute(
+                name: AreaName + "_create",
+                url: base.AreaRoutePrefix + "/create/{*url}",
+                defaults: new { controller = "Api", action = "Create" },
+                namespaces: new[] { "MvcPlugin.Shorty.Areas.Shorty.Controllers", "MvcContrib" }
+            );
         }
     }
 }

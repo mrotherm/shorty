@@ -8,10 +8,13 @@ using Raven.Client;
 
 namespace MvcPlugin.Shorty.Areas.Shorty.Controllers
 {
+    // TODO: Configure controller with its own settings class instead of hard coded members
     public class ApiController : RavenDataController
     {
+        // TODO: Take TokenAllowedChars out of this class (into configClass)
         private const string TokenAllowedChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+        // TODO: Take TokenLength out of this class (into configClass)
         private const int TokenLength = 5;
 
         private readonly Random _rng;
@@ -41,6 +44,7 @@ namespace MvcPlugin.Shorty.Areas.Shorty.Controllers
             this._rng = new Random();
         }
 
+        // ~/shorty/api/item/Gua8A
         public ActionResult Item(string token)
         {
             // ReSharper disable once ReplaceWithSingleCallToFirst
@@ -48,14 +52,17 @@ namespace MvcPlugin.Shorty.Areas.Shorty.Controllers
             return View(result);
         }
 
-        // /shorty/api/list
+        // ~/shorty/api/
+        // ~/shorty/api/list
         public ActionResult List()
         {
             var result = this.DocumentSession.Query<ShortLink>().AsEnumerable();
             return View(result);
         }
 
-        // /shorty/api/
+        
+        // ~/Gua8A
+        // ~/shorty/api/index?token=Gua8A => http://www.google.com
         public ActionResult Index(string token)
         {
             if (string.IsNullOrEmpty(token))
@@ -82,7 +89,7 @@ namespace MvcPlugin.Shorty.Areas.Shorty.Controllers
             return result.OriginalUrl;
         }
 
-        // /shorty/api/create/?url=https://www.google.de
+        // ~/shorty/api/create?url=https://www.google.com
         public ActionResult Create(string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -90,10 +97,13 @@ namespace MvcPlugin.Shorty.Areas.Shorty.Controllers
                 return RedirectPermanent("~/start");
             }
 
+            // TODO: Figure out what the heck is going on here, why dots, slashes and the like are getting eaten by RouteMap
             url = HttpUtility.UrlEncode(url);
 
             if (Request.QueryString != null)
             {
+                // If we don't do this loop, legit parameters of passed url will get eaten. So...
+                // TODO: Figure out why and get rid of this loop
                 for (var i = 0; i < Request.QueryString.Count; i++)
                 {
                     if (i == 0)
@@ -117,8 +127,9 @@ namespace MvcPlugin.Shorty.Areas.Shorty.Controllers
 
         protected ShortLink CreateShortyFromUrl(string url)
         {
+            // TODO: Check if url already exists and return that token in favor to just store another document
             var token = RandomStrings(TokenAllowedChars, TokenLength, TokenLength, 1, this._rng).First();
-
+            
             var result = new ShortLink
             {
                 Created = DateTime.UtcNow,
